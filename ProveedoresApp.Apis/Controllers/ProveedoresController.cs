@@ -25,10 +25,14 @@ namespace ProveedoresApp.Api.Controllers
         {
             var command = new CreateProveedorCommand(dto);
             var id = await _mediator.Send(command);
-            return CreatedAtAction(nameof(Get), new { id }, null);
+
+            var query = new GetProveedorCommand(id);
+            var proveedorCreado = await _mediator.Send(query);
+
+            return CreatedAtAction(nameof(Get), new { id }, proveedorCreado);
         }
 
-        [HttpPut("{id}")]
+            [HttpPut("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] UpdateProveedorDto dto)
         {
             var command = new UpdateProveedorCommand(id, dto);

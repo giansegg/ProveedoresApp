@@ -25,7 +25,6 @@ public class CreateProveedorCommandHandler : IRequestHandler<CreateProveedorComm
     {
         var dto = request.CreateProveedorDto;
 
-        // Validación de duplicados por RUC
         var exists = await _context.Proveedores.AnyAsync(p => p.RazonSocial == dto.RazonSocial, cancellationToken);
         if (exists)
         {
@@ -33,7 +32,6 @@ public class CreateProveedorCommandHandler : IRequestHandler<CreateProveedorComm
             throw new Exception($"Ya existe un proveedor con el RUC {dto.RazonSocial}");
         }
 
-        // Mapeo manual
         var proveedor = new Proveedor
         {
             Id = Guid.NewGuid(),
